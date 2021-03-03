@@ -251,6 +251,85 @@ ValidatorKeys::createValidatorToken (
         ripple::base64_encode(manifest_.data(), manifest_.size()), tokenSecret };
 }
 
+boost::optional<std::string>
+ValidatorKeys::createUNL (std::string const& dataPath)
+{
+    // Try to load UNL source data
+    boost::filesystem::path unlSource = dataPath;
+    if (!exists (unlSource))
+        throw std::runtime_error (
+            "Specified UNL source file doesn't exist: " +
+                unlSource.string ());
+    std::ifstream ifsData (unlSource.c_str (), std::ios::in);
+    if (! ifsData)
+        throw std::runtime_error (
+            "Failed to open UNL source file: " + unlSource.string());
+
+    // Parse data
+    Json::Reader reader;
+    Json::Value jValidators;
+    if (! reader.parse (ifsData, jValidators))
+    {
+        throw std::runtime_error (
+            "Unable to parse json file: " + unlSource.string());
+    }
+    if (!jValidators.isArray())
+    {
+        throw std::runtime_error (
+            "The json file must contain an array");
+    }
+
+    // Check that neither master key is revoked nor we
+    //   have exceeded an allowed sequence range.
+    if (revoked () ||
+            std::numeric_limits<std::uint32_t>::max () - 1 <= tokenSequence_)
+        return boost::none;
+
+    // Generate one-time signing keys and create manifest
+    ++tokenSequence_;
+
+    auto const tokenSecret = generateSecretKey (randomSeed ());
+    auto const tokenPublic = derivePublicKey(tokenSecret);
+
+    STObject st(sfGeneric);
+    st[sfSequence] = tokenSequence_;
+    st[sfPublicKey] = publicKey_;
+    st[sfSigningPubKey] = tokenPublic;
+
+    ripple::sign(st, HashPrefix::manifest, tokenSecret);
+    ripple::sign(st, HashPrefix::manifest, secretKey_,
+        sfMasterSignature);
+
+    Serializer s;
+    st.add(s);
+
+    std::string manifest (static_cast<char const*> (s.data()), s.size());
+
+    std::string vlBlob, vlStr;
+
+    // Create blob to sign
+    Json::Value jvToSign;
+    int currTime = std::time(nullptr) - 1614556800;
+    jvToSign["sequence"] = tokenSequence_;
+    jvToSign["expiration"] = currTime  + 7889238;
+    jvToSign["validators"] = jValidators;
+
+    vlBlob = to_string(jvToSign);
+    auto signature = ripple::sign (tokenPublic, tokenSecret, makeSlice (vlBlo
+b));
+
+    // Pack the final list and serialize it
+    Json::Value jvl;
+    jvl["public_key"] = strHex(publicKey_);
+    jvl["manifest"] = ripple::base64_encode(manifest);
+    jvl["blob"] = ripple::base64_encode(vlBlob);
+    jvl["signature"] = strHex(signature);
+    jvl["version"] = 1;
+
+    return to_string(jvl);
+}
+
+
 std::string
 ValidatorKeys::revoke ()
 {

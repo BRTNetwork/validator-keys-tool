@@ -107,6 +107,12 @@ public:
     boost::optional<ValidatorToken>
     createValidatorToken (KeyType const& keyType = KeyType::secp256k1);
 
+
+    /** Creates UNL from provided data
+    */
+    boost::optional<std::string>
+    createUNL(std::string const& dataPath);
+
     /** Revokes validator keys
 
         @return base64-encoded key revocation
