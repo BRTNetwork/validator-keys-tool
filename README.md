@@ -9,22 +9,22 @@ Rippled validator key generation tool
 ## Table of contents
 
 * [Dependencies](#dependencies)
-  * [rippled inclusion](#rippled-inclusion)
+  * [brtd inclusion](#brtd-inclusion)
   * [Other dependencies](#other-dependencies)
 * [Build and run](#build-and-run)
 * [Guide](#guide)
 
 ## Dependencies
 
-### rippled inclusion
+### brtd inclusion
 
-This project depends on the [rippled](https://github.com/ripple/rippled.git) repository for core signing functionality. If you have built and installed rippled, you can point this project at your installation using `CMAKE_PREFIX_PATH` (if you have installed in a standard system search path, this is not needed), e.g.:
+This project depends on the [brtd](https://github.com/ripple/brtd.git) repository for core signing functionality. If you have built and installed brtd, you can point this project at your installation using `CMAKE_PREFIX_PATH` (if you have installed in a standard system search path, this is not needed), e.g.:
 
 ```sh
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/path/to/brtd/installation/root ../..
 ```
 
-Alternatively, if you do not have a local installation of rippled development files that you want to use, then this project will fetch an appropriate version of the source code using CMake's FetchContent.
+Alternatively, if you do not have a local installation of brtd development files that you want to use, then this project will fetch an appropriate version of the source code using CMake's FetchContent.
 
 ### Other dependencies
 

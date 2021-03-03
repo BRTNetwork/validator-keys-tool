@@ -3,7 +3,7 @@
    and build any ExternalProjects, and they will hopefully
    survive across build directory deletion (manual cleans)
 
-   Copied from rippled https://github.com/ripple/rippled/blob/develop/Builds/CMake/RippledNIH.cmake
+   Copied from brtd https://github.com/ripple/brtd/blob/develop/Builds/CMake/RippledNIH.cmake
    Only called if building directly and a Rippled installation was not found.
 #]===================================================================]
 

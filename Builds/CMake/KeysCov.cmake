@@ -1,7 +1,7 @@
 #[===================================================================[
    coverage report target
 
-   Copied from rippled https://github.com/ripple/rippled/blob/develop/Builds/CMake/RippledCov.cmake
+   Copied from brtd https://github.com/ripple/brtd/blob/develop/Builds/CMake/RippledCov.cmake
 #]===================================================================]
 
 if (coverage)

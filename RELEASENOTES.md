@@ -10,7 +10,7 @@ This release overhauls the Travis CI configuration to cover more cases more robu
 
 ### New and Improved Features
 
-- Restructure Travis CI builds to use rippled's infrastructure [[#16](https://github.com/ripple/validator-keys-tool/pull/16)].
+- Restructure Travis CI builds to use brtd's infrastructure [[#16](https://github.com/ripple/validator-keys-tool/pull/16)].
 
 ### Bug Fixes
 
@@ -18,7 +18,7 @@ This release overhauls the Travis CI configuration to cover more cases more robu
 
 ## Version 0.3.1
 
-This version brings the code up to date with the rippled code base's internal APIs and structures.
+This version brings the code up to date with the brtd code base's internal APIs and structures.
 
 ### Bug Fixes
 

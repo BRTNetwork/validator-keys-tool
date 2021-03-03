@@ -1,5 +1,5 @@
 #[===================================================================[
-   rippled compile options/settings via an interface library
+   brtd compile options/settings via an interface library
 #]===================================================================]
 
 add_library (keys_opts INTERFACE)

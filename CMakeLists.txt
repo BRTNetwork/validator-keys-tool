@@ -3,8 +3,8 @@ project (validator-keys-tool)
 
 #[===========================================[
   The tool depends on the xrpl_core
-  library which is defined by the rippled
-  project. This looks for installed rippled
+  library which is defined by the brtd
+  project. This looks for installed brtd
   libs and, if not found, pulls them in with
   FetchContent.
 #]===========================================]
@@ -37,30 +37,30 @@ if (NOT has_parent)
       message (WARNING "git command failed - deduced branch might be incorrect")
     endif ()
 
-    # rippled_tag is cache string and can be overriden when configuring
-    # with -Drippled_tag=commit_or_tag in order to pick a specific
-    # rippled version to download. Default tag is develop/master/release as 
+    # brtd_tag is cache string and can be overriden when configuring
+    # with -Dbrtd_tag=commit_or_tag in order to pick a specific
+    # brtd version to download. Default tag is develop/master/release as 
     # determined by the branch of this project
     if (NOT (_branch STREQUAL "master" OR _branch STREQUAL "release"))
-      set (rippled_tag "develop" CACHE STRING
-        "tag/commit of rippled to fetch from if a local install is not found")
+      set (brtd_tag "develop" CACHE STRING
+        "tag/commit of brtd to fetch from if a local install is not found")
     else ()
-      set (rippled_tag "${_branch}" CACHE STRING
-        "tag/commit of rippled to fetch from if a local install is not found")
+      set (brtd_tag "${_branch}" CACHE STRING
+        "tag/commit of brtd to fetch from if a local install is not found")
     endif ()
-    message(STATUS "Installed rippled not found... \
-      using local copy from tag/commit [${rippled_tag}]")
+    message(STATUS "Installed brtd not found... \
+      using local copy from tag/commit [${brtd_tag}]")
     include (FetchContent)
     FetchContent_Declare(
-      rippled_src
+      brtd_src
       GIT_REPOSITORY https://github.com/BRTNetwork/brtd.git
-      GIT_TAG ${rippled_tag}
+      GIT_TAG ${brtd_tag}
     )
-    FetchContent_GetProperties(rippled_src)
-    if(NOT rippled_src_POPULATED)
-      message (STATUS "Pausing to download rippled source...")
-      FetchContent_Populate(rippled_src)
-      add_subdirectory(${rippled_src_SOURCE_DIR} ${rippled_src_BINARY_DIR})
+    FetchContent_GetProperties(brtd_src)
+    if(NOT brtd_src_POPULATED)
+      message (STATUS "Pausing to download brtd source...")
+      FetchContent_Populate(brtd_src)
+      add_subdirectory(${brtd_src_SOURCE_DIR} ${brtd_src_BINARY_DIR})
     endif()
   endif ()
 endif ()

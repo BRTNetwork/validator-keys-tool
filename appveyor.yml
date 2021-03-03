@@ -5,12 +5,12 @@ environment:
   # that it's a small download. We also use appveyor's free cache, avoiding fees
   # downloading from S3 each time.
   # TODO: script to create this package.
-  RIPPLED_DEPS_PATH: rippled_deps17.04
-  RIPPLED_DEPS_URL: https://ripple.github.io/Downloads/appveyor/%RIPPLED_DEPS_PATH%.zip
+  BRTD_DEPS_PATH: brtd_deps17.04
+  BRTD_DEPS_URL: https://ripple.github.io/Downloads/appveyor/%BRTD_DEPS_PATH%.zip
 
   # CMake honors these environment variables, setting the include/lib paths.
-  BOOST_ROOT: C:/%RIPPLED_DEPS_PATH%/boost
-  OPENSSL_ROOT: C:/%RIPPLED_DEPS_PATH%/openssl
+  BOOST_ROOT: C:/%BRTD_DEPS_PATH%/boost
+  OPENSSL_ROOT: C:/%BRTD_DEPS_PATH%/openssl
 
   # We've had trouble with AppVeyor apparently not having a stack as large
   # as the *nix CI platforms.  AppVeyor support suggested that we try
@@ -26,24 +26,24 @@ os: Visual Studio 2017
 
 # At the end of each successful build we cache this directory.
 cache:
-  - 'C:\%RIPPLED_DEPS_PATH%'
+  - 'C:\%BRTD_DEPS_PATH%'
 
 install:
   # We want  protoc.exe on PATH.
-  - SET PATH=C:/%RIPPLED_DEPS_PATH%;%PATH%
+  - SET PATH=C:/%BRTD_DEPS_PATH%;%PATH%
   - git submodule update --init
   # Download dependencies if appveyor didn't restore them from the cache.
   # Use 7zip to unzip.
   - ps: |
-        if (-not(Test-Path 'C:/$env:RIPPLED_DEPS_PATH')) {
-            echo "Download from $env:RIPPLED_DEPS_URL"
-            Start-FileDownload "$env:RIPPLED_DEPS_URL"
-            7z x "$($env:RIPPLED_DEPS_PATH).zip" -oC:\ -y > $null
+        if (-not(Test-Path 'C:/$env:BRTD_DEPS_PATH')) {
+            echo "Download from $env:BRTD_DEPS_URL"
+            Start-FileDownload "$env:BRTD_DEPS_URL"
+            7z x "$($env:BRTD_DEPS_PATH).zip" -oC:\ -y > $null
             if ($LastExitCode -ne 0) { throw "7z failed" }
         }
   - ps: |
-        if (Test-Path "C:/$env:RIPPLED_DEPS_PATH/versions.txt") {
-          cat "C:/$env:RIPPLED_DEPS_PATH/versions.txt"
+        if (Test-Path "C:/$env:BRTD_DEPS_PATH/versions.txt") {
+          cat "C:/$env:BRTD_DEPS_PATH/versions.txt"
         }
 
 build_script:

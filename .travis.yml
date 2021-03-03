@@ -17,7 +17,7 @@ stages:
 
 env:
   global:
-    - DOCKER_IMAGE="rippleci/rippled-ci-builder:2020-01-08"
+    - DOCKER_IMAGE="rippleci/brtd-ci-builder:2020-01-08"
     - CMAKE_EXTRA_ARGS="-Dwerr=ON -Dwextra=ON"
     - NINJA_BUILD=true
     # change this if we get more VM capacity
