@@ -189,6 +189,7 @@ ValidatorKeys::writeToFile (
     jv["key_type"] = to_string(keyType_);
     jv["public_key"] = toBase58(TokenType::NodePublic, publicKey_);
     jv["secret_key"] = toBase58(TokenType::NodePrivate, secretKey_);
+    jv["secret_key_hex"] = strHex(secretKey_);
     jv["token_sequence"] = Json::UInt (tokenSequence_);
     jv["revoked"] = revoked_;
     if (!domain_.empty())
